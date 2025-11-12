@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-// Change this from localhost to your Railway backend URL
-const API_BASE = "https://carbontraciter-production-ab22.up.railway.app";
+// Use environment variable for production, fallback to Railway backend
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://carbontraciter-production-ab22.up.railway.app";
 
-export async function submitFootprint(userId, activity, emissions, evident) {
-  const res = await axios.post(`${API_BASE}/submit-footprint`, {
-    userId,
+export async function submitFootprint(userId, activity, emissions, evidenceUrl = '') {
+  const res = await axios.post(`${API_BASE}/submit-footprint/`, {
+    user_id: userId,
     activity,
     emissions,
-    evident
+    evidence_url: evidenceUrl
   });
   return res.data;
 }
